@@ -3,7 +3,36 @@
     padding: 0;
 }
 
-.wrapper__search  {
-    display: flex;
-    justify-content: center;
+.paper {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    background: linear-gradient(steelblue,skyblue);
+    margin-top: 100px;
+    padding-top: 30px;
+    text-align: center;
+    text-shadow: 2px 2px 8px black;
+    box-shadow: 2px 2px 12px 2px #fff;
 }
+
+.search_weather {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search_input {
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    margin: 0 10px 10px 45px;
+}
+
+.search_input:hover {
+    box-shadow: 1px 1px 7px black;
+}
+
+.weather__temp {
+    color: orange;
+    font-size: 35px;
+}
+

@@ -2,3 +2,8 @@
     margin: 0;
     padding: 0;
 }
+
+.wrapper__search  {
+    display: flex;
+    justify-content: center;
+}

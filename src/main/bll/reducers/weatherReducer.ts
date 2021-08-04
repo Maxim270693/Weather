@@ -31,7 +31,7 @@ export const weatherReducer = (state = initialState, action: ActionType): Initia
 
 // ActionCreators
 const getWeatherAC = (data: WeatherDataType, loading: boolean) => ({type: GET_WEATHER, data, loading} as const)
-const setErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
+export const setErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
 
 // ThunkCreators
 export const getWeatherTC = (city: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, ActionType>) => {
@@ -39,7 +39,7 @@ export const getWeatherTC = (city: string) => async (dispatch: ThunkDispatch<Roo
         const response = await API.getWeather(city)
         dispatch(getWeatherAC(response.data, false))
     } catch (error) {
-        dispatch(setErrorAC('error message'))
+        dispatch(setErrorAC(error.data.message))
     }
 }
 

@@ -61,8 +61,5 @@ export const API = {
     },
     setLoading() {
 
-    },
-    setError() {
-
     }
 }

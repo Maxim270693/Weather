@@ -4,8 +4,8 @@
 }
 
 .paper {
-    width: 400px;
-    height: 400px;
+    width: 600px;
+    height: 345px;
     margin: auto;
     background: linear-gradient(steelblue,skyblue);
     margin-top: 100px;
@@ -34,5 +34,18 @@
 .weather__temp {
     color: orange;
     font-size: 35px;
+}
+
+.settings_icon {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.welement {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 10px;
 }
 

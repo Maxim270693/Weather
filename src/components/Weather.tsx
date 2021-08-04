@@ -9,14 +9,6 @@ const Weather: React.FC = () => {
 
     const data = useSelector<RootStateType, WeatherDataType | null>(state => state.weather.data)
 
-    let sunset_date
-
-    if(data !== null) {
-        const sunset = data.sys.sunset
-        const date = new Date()
-        date.setTime(sunset)
-        sunset_date = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    }
 
     return (
         <div className='search_weather'>
@@ -42,14 +34,11 @@ const Weather: React.FC = () => {
                                 Humidity : {data.main.humidity} %
                             </div>
                             <div className="welement">
-                                Pressure : {data.main.pressure} mb
-                            </div>
-                            <div>
                                 Wind speed : {data.wind.speed}
                             </div>
-                            <div>
-                                Sunrise time : {data.sys.sunrise}
-                                Sunset time : {sunset_date}
+                            <div className="welement">
+                                <p>Sunrise time : {new Date(data.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</p>
+                                <p>Sunset time : {new Date(data.sys.sunset * 1000).toLocaleTimeString('en-IN')}</p>
                             </div>
                         </div>
                     </div>

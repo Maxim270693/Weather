@@ -4,25 +4,28 @@ import {API, WeatherDataType} from "../../dal/API";
 
 const GET_WEATHER = 'GET_WEATHER'
 const SET_ERROR = 'SET_ERROR'
+const SET_CITY = "SET_CITY"
 
 type InitialStateType = {
     data: WeatherDataType | null
-    loading: boolean
-    error: string
+    error: string,
+    cities: Array<string>
 }
 
 const initialState: InitialStateType = {
     data: null,
-    loading: false,
-    error: ''
+    error: '',
+    cities: []
 }
 
 export const weatherReducer = (state = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case GET_WEATHER:
-            return {...state, data: action.data, loading: action.loading}
+            return {...state, data: action.data}
         case SET_ERROR:
             return {...state, error: action.error}
+        case SET_CITY:
+            return {...state, cities: [...state.cities, action.city]}
         default:
             return state
     }
@@ -30,22 +33,33 @@ export const weatherReducer = (state = initialState, action: ActionType): Initia
 
 
 // ActionCreators
-const getWeatherAC = (data: WeatherDataType, loading: boolean) => ({type: GET_WEATHER, data, loading} as const)
+const getWeatherAC = (data: WeatherDataType) => ({type: GET_WEATHER, data} as const)
 export const setErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
+const setCityAC = (city: string) => ({type: SET_CITY, city} as const)
 
 // ThunkCreators
 export const getWeatherTC = (city: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, ActionType>) => {
     try {
         const response = await API.getWeather(city)
-        dispatch(getWeatherAC(response.data, false))
+        dispatch(getWeatherAC(response.data))
     } catch (error) {
-        dispatch(setErrorAC(error.data.message))
+        dispatch(setErrorAC(error.message))
+    }
+}
+export const getWeatherCurrentTC = (lat: number, long: number, api: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, ActionType>) => {
+    try {
+        const response = await API.getLocation(lat, long, api)
+        dispatch(getWeatherAC(response))
+    } catch (error) {
+        dispatch(setErrorAC(error.message))
     }
 }
 
 
+
 type GetWeatherType = ReturnType<typeof getWeatherAC>
 type SetErrorType = ReturnType<typeof setErrorAC>
+type SetCityType = ReturnType<typeof setCityAC>
 
 
-type ActionType = GetWeatherType | SetErrorType
+type ActionType = GetWeatherType | SetErrorType | SetCityType

@@ -1,50 +1,18 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {useDispatch} from "react-redux";
-import {getWeatherTC} from "../main/bll/reducers/weatherReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {getWeatherTC, setErrorAC} from "../main/bll/reducers/weatherReducer";
 import {Button} from "@material-ui/core";
 import SendIcon from '@material-ui/icons/Send'
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import {RootStateType} from "../main/bll/store";
 
-
-type PositionType = {
-    coords: {
-        accuracy: null | number
-        altitude: null | number
-        altitudeAccuracy: null | number
-        heading: null | number
-        latitude: null | number
-        longitude: null | number
-        speed: null | number
-    }
-    timestamp: number
-}
 
 const SearchWeather: React.FC = () => {
 
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
-
-    const successCallback = (position: PositionType) => {
-        const crd = position.coords;
-
-        console.log('Ваше текущее местоположение:');
-        console.log(`Широта: ${crd.latitude}`);
-        console.log(`Долгота: ${crd.longitude}`);
-        console.log(`Плюс-минус ${crd.accuracy} метров.`);
-    }
-    const errorCallback = (error: any) => {
-        console.log(error)
-    }
-
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options )
-
-
+    const error = useSelector<RootStateType, string>(state => state.weather.error)
     const dispatch = useDispatch()
 
-    const [city, setCity] = useState('Minsk')
+    const [city, setCity] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setCity(e.currentTarget.value)
 
@@ -53,7 +21,8 @@ const SearchWeather: React.FC = () => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.code === "Enter") {
+        dispatch(setErrorAC(''))
+        if (e.code === "Enter") {
             dispatch(getWeatherTC(city))
         }
     }
@@ -76,6 +45,7 @@ const SearchWeather: React.FC = () => {
                 >
                     <SendIcon/>
                 </Button>
+                {error && <div className='error_message'>Enter city please</div>}
             </div>
         </div>
     );

@@ -1,13 +1,31 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
 import {WeatherDataType} from "../main/dal/API";
 import SearchWeather from "./SearchWeather";
 import {Paper} from "@material-ui/core";
+import {getWeatherCurrentTC} from '../main/bll/reducers/weatherReducer';
 
-const Weather: React.FC = () => {
+const Weather = () => {
 
     const data = useSelector<RootStateType, WeatherDataType | null>(state => state.weather.data)
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = Promise.resolve(position.coords.latitude)
+                const long = Promise.resolve(position.coords.longitude)
+                Promise.all([lat, long]).then((res) => {
+                    dispatch(getWeatherCurrentTC(res[0], res[1], '430f4135c55d99ceee29921a087daf36'))
+                })
+            });
+
+
+        }
+        fetchData();
+    }, [])
 
 
     return (

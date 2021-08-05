@@ -7,7 +7,6 @@ const instance = axios.create({
     }
 })
 
-// })
 
 export type WeatherDataType = {
     coord: {
@@ -58,6 +57,10 @@ export type WeatherType = {
 export const API = {
     getWeather(city: string) {
         return instance.get<WeatherDataType>(`weather?q=${city}`)
+    },
+    getLocation(lat: number, long: number, api: string) {
+        return axios.get(`http://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${long}&units=metric&APPID=${api}`)
+            .then((res) => res.data)
     },
     setLoading() {
 

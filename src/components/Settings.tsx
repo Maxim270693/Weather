@@ -4,11 +4,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
-import {WeatherDataType} from "../main/dal/API";
 
 const Settings = () => {
 
-    // const cities = useSelector<RootStateType, WeatherDataType | null>(state => state.weather.cities)
+    const cities = useSelector<RootStateType, Array<string>>(state => state.weather.cities)
 
 
     return (
@@ -19,7 +18,7 @@ const Settings = () => {
             </div>
             <div>
                 <MenuIcon/>
-                {/*<p>{cities}</p>*/}
+                <p>{cities}</p>
                 <HighlightOffIcon/>
             </div>
         </div>

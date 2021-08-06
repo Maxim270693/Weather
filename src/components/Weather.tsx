@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
 import {WeatherDataType} from "../main/dal/API";
@@ -6,11 +6,14 @@ import SearchWeather from "./SearchWeather";
 import {Paper} from "@material-ui/core";
 import {getWeatherCurrentTC} from '../main/bll/reducers/weatherReducer';
 
+
 const Weather = () => {
 
     const data = useSelector<RootStateType, WeatherDataType | null>(state => state.weather.data)
     const dispatch = useDispatch()
 
+    const [city, setCity] = useState('')
+    const [isFirst, setIsFirst] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,8 +24,6 @@ const Weather = () => {
                     dispatch(getWeatherCurrentTC(res[0], res[1], '430f4135c55d99ceee29921a087daf36'))
                 })
             });
-
-
         }
         fetchData();
     }, [])
@@ -31,7 +32,7 @@ const Weather = () => {
     return (
         <div className='search_weather'>
             <Paper className='paper'>
-                <SearchWeather/>
+                <SearchWeather city={city} setCity={setCity} setIsFirst={setIsFirst} />
                 {data && <>
                     <div>
                         <div className="weather">
@@ -39,7 +40,7 @@ const Weather = () => {
                                 <h1>{data.name}</h1>
                             </div>
                             <div className="welement">
-                                <span className='weather__temp'>{Math.floor(data.main.temp - 273.15)} °C</span>
+                                {<span className='weather__temp'>{Math.floor(isFirst ? data.main.temp : data.main.temp - 273.15)} °C</span>}
                                 <img className='weather__img'
                                      src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
                                      alt="photo icon"/>

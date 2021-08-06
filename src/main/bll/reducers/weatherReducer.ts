@@ -5,16 +5,19 @@ import {API, WeatherDataType} from "../../dal/API";
 const GET_WEATHER = 'GET_WEATHER'
 const SET_ERROR = 'SET_ERROR'
 const SET_CITY = "SET_CITY"
+const SET_SETTINGS = "SET_SETTINGS"
 
 type InitialStateType = {
     data: WeatherDataType | null
     error: string,
+    settings: boolean
     cities: Array<string>
 }
 
 const initialState: InitialStateType = {
     data: null,
     error: '',
+    settings: false,
     cities: []
 }
 
@@ -24,6 +27,8 @@ export const weatherReducer = (state = initialState, action: ActionType): Initia
             return {...state, data: action.data}
         case SET_ERROR:
             return {...state, error: action.error}
+        case SET_SETTINGS:
+            return {...state, settings: action.settings}
         case SET_CITY:
             return {...state, cities: [...state.cities, action.city]}
         default:
@@ -36,6 +41,7 @@ export const weatherReducer = (state = initialState, action: ActionType): Initia
 const getWeatherAC = (data: WeatherDataType) => ({type: GET_WEATHER, data} as const)
 export const setErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
 const setCityAC = (city: string) => ({type: SET_CITY, city} as const)
+export const setSettingsAC = (settings: boolean) => ({type: SET_SETTINGS, settings} as const)
 
 // ThunkCreators
 export const getWeatherTC = (city: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, ActionType>) => {
@@ -60,6 +66,7 @@ export const getWeatherCurrentTC = (lat: number, long: number, api: string) => a
 type GetWeatherType = ReturnType<typeof getWeatherAC>
 type SetErrorType = ReturnType<typeof setErrorAC>
 type SetCityType = ReturnType<typeof setCityAC>
+type SetSettingsType = ReturnType<typeof setSettingsAC>
 
 
-type ActionType = GetWeatherType | SetErrorType | SetCityType
+type ActionType = GetWeatherType | SetErrorType | SetCityType | SetSettingsType

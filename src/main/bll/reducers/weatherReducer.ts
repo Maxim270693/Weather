@@ -7,11 +7,16 @@ const SET_ERROR = 'SET_ERROR'
 const SET_CITY = "SET_CITY"
 const SET_SETTINGS = "SET_SETTINGS"
 
+export type CityType = {
+    id: number
+    title: string
+}
+
 type InitialStateType = {
     data: WeatherDataType | null
     error: string,
     settings: boolean
-    cities: Array<string>
+    cities: Array<CityType>
 }
 
 const initialState: InitialStateType = {
@@ -38,9 +43,9 @@ export const weatherReducer = (state = initialState, action: ActionType): Initia
 
 
 // ActionCreators
-const getWeatherAC = (data: WeatherDataType) => ({type: GET_WEATHER, data} as const)
+export const getWeatherAC = (data: WeatherDataType) => ({type: GET_WEATHER, data} as const)
 export const setErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
-const setCityAC = (city: string) => ({type: SET_CITY, city} as const)
+export const setCityAC = (city: CityType) => ({type: SET_CITY, city} as const)
 export const setSettingsAC = (settings: boolean) => ({type: SET_SETTINGS, settings} as const)
 
 // ThunkCreators

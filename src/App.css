@@ -36,6 +36,10 @@
     font-size: 35px;
 }
 
+.wrapper__search {
+    margin-top: 30px;
+}
+
 .settings_icon {
     display: flex;
     justify-content: flex-end;
@@ -53,5 +57,26 @@
     color: red;
     font-size: 22px;
     margin-right: 40px;
+}
+
+.wrapper_settings {
+    width: 200px;
+    margin-left: 33%;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.clear_icon {
+    cursor: pointer;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    background-color: lavender;
 }
 

@@ -2,25 +2,31 @@ import React from 'react';
 import ClearIcon from '@material-ui/icons/Clear';
 import MenuIcon from '@material-ui/icons/Menu';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
+import {CityType, setSettingsAC} from "../main/bll/reducers/weatherReducer";
 
 const Settings = () => {
 
-    const cities = useSelector<RootStateType, Array<string>>(state => state.weather.cities)
+    const cities = useSelector<RootStateType, Array<CityType>>(state => state.weather.cities)
+    const dispatch = useDispatch()
+
+    const onClickHandler = () => dispatch(setSettingsAC(false))
 
 
     return (
-        <div>
+        <div className='wrapper_settings'>
             <div className="title">
                 <p>Settings</p>
-                <ClearIcon/>
+                <ClearIcon className='clear_icon' onClick={onClickHandler}/>
             </div>
-            <div>
-                <MenuIcon/>
-                <p>{cities}</p>
-                <HighlightOffIcon/>
-            </div>
+            {
+                cities.map(city => <div className='menu' key={city.id}>
+                    <MenuIcon/>
+                    <p>{city.title}</p>
+                    <HighlightOffIcon onClick={() => alert('delete')}/>
+                </div>)
+            }
         </div>
     );
 };

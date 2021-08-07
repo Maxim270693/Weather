@@ -1,12 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getWeatherTC, setErrorAC, setSettingsAC} from "../main/bll/reducers/weatherReducer";
+import {getWeatherTC, setCityAC, setErrorAC, setSettingsAC} from "../main/bll/reducers/weatherReducer";
 import {Button} from "@material-ui/core";
 import SendIcon from '@material-ui/icons/Send'
-import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import {RootStateType} from "../main/bll/store";
 
 type PropsType = {
+    id : number
     city: string
     setCity: (city: string) => void
     setIsFirst: (isFirst: boolean) => void
@@ -16,34 +16,31 @@ const SearchWeather: React.FC<PropsType> = (props) => {
 
 
     const error = useSelector<RootStateType, string>(state => state.weather.error)
-    const settings = useSelector<RootStateType, boolean>(state => state.weather.settings)
     const dispatch = useDispatch()
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.setCity(e.currentTarget.value)
 
+    const foo = () => {
+        dispatch(getWeatherTC(props.city))
+        dispatch(setSettingsAC(false))
+    }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         dispatch(setErrorAC(''))
         if (e.code === "Enter") {
-            dispatch(getWeatherTC(props.city))
+            foo()
             props.setIsFirst(false)
         }
     }
 
-    const onClickHandler = () => {
-        dispatch(getWeatherTC(props.city))
+    const onClickHandler = (id: number, title: string) => {
+        foo()
         props.setIsFirst(false)
-    }
-
-    const openSettings = () => {
-        dispatch(setSettingsAC(true))
+        dispatch(setCityAC({id,title}))
     }
 
     return (
         <div>
-            <div className='settings_icon'>
-                <SettingsOutlinedIcon onClick={openSettings}/>
-            </div>
             <div className='wrapper__search'>
                 <input type="text"
                        className='search_input'
@@ -53,7 +50,7 @@ const SearchWeather: React.FC<PropsType> = (props) => {
                        onKeyPress={onKeyPressHandler}
                 />
                 <Button className='btn_search'
-                        onClick={onClickHandler}
+                        onClick={() => onClickHandler(props.id,props.city)}
                 >
                     <SendIcon/>
                 </Button>

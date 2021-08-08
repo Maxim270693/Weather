@@ -7,6 +7,7 @@ import {Paper} from "@material-ui/core";
 import {getWeatherCurrentTC, setSettingsAC} from '../main/bll/reducers/weatherReducer';
 import Settings from "./Settings";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
+import Spinner from "./Spinner";
 
 
 const Weather = () => {
@@ -36,7 +37,9 @@ const Weather = () => {
     }, [])
 
     if (!data) {
-        return <div>loading...</div>
+        return <div>
+            <Spinner/>
+        </div>
     }
 
 

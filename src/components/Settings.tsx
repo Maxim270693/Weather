@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
-import {CityType, setSettingsAC} from "../main/bll/reducers/weatherReducer";
+import {CityType, deleteCityAC, setSettingsAC} from "../main/bll/reducers/weatherReducer";
 
 const Settings = () => {
 
@@ -12,6 +12,10 @@ const Settings = () => {
     const dispatch = useDispatch()
 
     const onClickHandler = () => dispatch(setSettingsAC(false))
+
+    const removeCity = (id: number) => {
+        dispatch(deleteCityAC(id))
+    }
 
 
     return (
@@ -24,7 +28,7 @@ const Settings = () => {
                 cities.map(city => <div className='menu' key={city.id}>
                     <MenuIcon/>
                     <p>{city.title}</p>
-                    <HighlightOffIcon onClick={() => alert('delete')}/>
+                    <HighlightOffIcon className='delete_icon' onClick={() => removeCity(city.id)}/>
                 </div>)
             }
         </div>

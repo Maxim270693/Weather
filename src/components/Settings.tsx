@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../main/bll/store";
 import {CityType, deleteCityAC, replaceCityAC, setSettingsAC} from "../main/bll/reducers/weatherReducer";
 
-const Settings = () => {
+const Settings = React.memo(() => {
 
     const cities = useSelector<RootStateType, Array<CityType>>(state => state.weather.cities)
     const dispatch = useDispatch()
@@ -21,10 +21,6 @@ const Settings = () => {
 
     const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, city: CityType) => {
         setCurrentCity(city)
-    }
-
-    const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
-
     }
 
     const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
@@ -49,8 +45,6 @@ const Settings = () => {
                          key={city.id}
                          draggable={true}
                          onDragStart={(e) => dragStartHandler(e, city)}
-                         onDragLeave={(e) => dragEndHandler(e)}
-                         onDragEnd={(e) => dragEndHandler(e)}
                          onDragOver={(e) => dragOverHandler(e)}
                          onDrop={(e) => dropHandler(e, city)}
                     >
@@ -61,6 +55,6 @@ const Settings = () => {
             }
         </div>
     );
-};
+});
 
 export default Settings;

@@ -10,7 +10,7 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Spinner from "./Spinner";
 
 
-const Weather = () => {
+const Weather = React.memo(() => {
 
     const data = useSelector<RootStateType, WeatherDataType | null>(state => state.weather.data)
     const settings = useSelector<RootStateType, boolean>(state => state.weather.settings)
@@ -90,6 +90,6 @@ const Weather = () => {
             </Paper>
         </div>
     );
-};
+});
 
 export default Weather;

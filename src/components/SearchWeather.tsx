@@ -12,8 +12,7 @@ type PropsType = {
     setIsFirst: (isFirst: boolean) => void
 }
 
-const SearchWeather: React.FC<PropsType> = (props) => {
-
+const SearchWeather: React.FC<PropsType> = React.memo((props) => {
 
     const error = useSelector<RootStateType, string>(state => state.weather.error)
     const dispatch = useDispatch()
@@ -58,6 +57,6 @@ const SearchWeather: React.FC<PropsType> = (props) => {
             </div>
         </div>
     );
-};
+});
 
 export default SearchWeather;

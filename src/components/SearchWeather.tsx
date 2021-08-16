@@ -13,29 +13,27 @@ type PropsType = {
 }
 
 const SearchWeather: React.FC<PropsType> = React.memo((props) => {
-
     const error = useSelector<RootStateType, string>(state => state.weather.error)
     const dispatch = useDispatch()
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.setCity(e.currentTarget.value)
 
-    const foo = () => {
+    const foo = (id: number, title: string) => {
         dispatch(getWeatherTC(props.city))
         dispatch(setSettingsAC(false))
+        dispatch(setCityAC({id,title}))
+        props.setIsFirst(false)
     }
 
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>, id: number, title: string) => {
         dispatch(setErrorAC(''))
         if (e.code === "Enter") {
-            foo()
-            props.setIsFirst(false)
+            foo(id,title)
         }
     }
 
     const onClickHandler = (id: number, title: string) => {
-        foo()
-        props.setIsFirst(false)
-        dispatch(setCityAC({id,title}))
+        foo(id,title)
     }
 
     return (
@@ -46,7 +44,7 @@ const SearchWeather: React.FC<PropsType> = React.memo((props) => {
                        placeholder='Search City'
                        name={props.city}
                        onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler}
+                       onKeyPress={ (e) => onKeyPressHandler(e, props.id, props.city)}
                 />
                 <Button className='btn_search'
                         onClick={() => onClickHandler(props.id,props.city)}
